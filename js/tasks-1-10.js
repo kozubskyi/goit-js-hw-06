@@ -154,13 +154,14 @@ console.log(getUsersWithAge(users, 30, 40));
 // Получить общую сумму баланса (поле balance) всех пользователей.
 
 //* Стрелочная функция через метод .forEach()
-// const calculateTotalBalance = users => {
-//   let totalBalance = 0;
-//   users.forEach(user => {
-//     return (totalBalance += user.balance);
-//   });
-//   return totalBalance;
-// };
+const calculateTotalBalance = users => {
+  let totalBalance = 0;
+  users.forEach(function (user) {
+    totalBalance += user.balance
+    return totalBalance
+  });
+  return totalBalance;
+};
 
 //* Стрелочная функция через метод .reduce()
 // const calculateTotalBalance = users => {
@@ -171,8 +172,8 @@ console.log(getUsersWithAge(users, 30, 40));
 // };
 
 //* Масимально сокращенная запись
-const calculateTotalBalance = users =>
-  users.reduce((totalBalance, user) => totalBalance + user.balance, 0);
+// const calculateTotalBalance = users =>
+//   users.reduce((totalBalance, user) => totalBalance + user.balance, 0);
 
 console.log(calculateTotalBalance(users)); // 20916
 
@@ -202,14 +203,19 @@ console.log(calculateTotalBalance(users)); // 20916
 //   return userNames;
 // };
 
-//*Максимально короткая запись
+//* Метод .reduce()
 const getUsersWithFriend = (users, friendName) =>
   users.reduce(
-    (array, user) =>
-      user.friends.includes(friendName) ? [...array, user.name] : array,
-    // Не совсем понимаю зачем нужна запись [...array, user.name] поскольку мы уже вроде как создали массив ниже при помощи .reduce()
+    (acc, user) =>
+      user.friends.includes(friendName) ? [...acc, user.name] : acc,
     [],
   );
+
+//* Методы .filter() и .map()
+// const getUsersWithFriend = (users, friendName) =>
+//   users
+//     .filter(user => user.friends.includes(friendName))
+//     .map(user => user.name);
 
 console.log(getUsersWithFriend(users, 'Briana Decker')); // [ 'Sharlene Bush', 'Sheree Anthony' ]
 console.log(getUsersWithFriend(users, 'Goldie Gentry')); // [ 'Elma Head', 'Sheree Anthony' ]
@@ -225,7 +231,13 @@ const getNamesSortedByFriendsCount = users =>
     .map(user => user.name);
 
 console.log(getNamesSortedByFriendsCount(users));
-// [ 'Moore Hensley', 'Sharlene Bush', 'Elma Head', 'Carey Barr', 'Blackburn Dotson', 'Sheree Anthony', 'Ross Vazquez' ]
+// [ 'Moore Hensley',
+//   'Sharlene Bush',
+//   'Elma Head',
+//   'Carey Barr',
+//   'Blackburn Dotson',
+//   'Sheree Anthony',
+//   'Ross Vazquez' ]
 
 //! Задание 10
 
@@ -237,28 +249,39 @@ console.log(getNamesSortedByFriendsCount(users));
 //todo 4. Отсортировать с помощью .sort()
 
 //* Сделал через методы .forEach(), .includes(), .push(), .sort()
-// const getSortedUniqueSkills = users => {
-//   const skillsArray = [];
+const getSortedUniqueSkills = users => {
+  const skillsArray = [];
 
-//   users.forEach(user =>
-//     user.skills.forEach(skill =>
-//       // skillsArray.includes(skill) ? null : skillsArray.push(skill),
-//       !skillsArray.includes(skill) ? skillsArray.push(skill) : null,
-//     ),
-//   );
-//   skillsArray.sort();
+  users.forEach(user =>
+    user.skills.forEach(skill =>
+      // skillsArray.includes(skill) ? null : skillsArray.push(skill),
+      !skillsArray.includes(skill) ? skillsArray.push(skill) : null,
+    ),
+  );
+  skillsArray.sort();
 
-//   return skillsArray;
-// };
+  return skillsArray;
+};
 
 //* Сделал через методы .reduce(), .filter(), .sort()
-const getSortedUniqueSkills = users => {
-  const allSkillsArray = [...users].reduce((acc, user) => acc = [...acc, ...user.skills], [])
-  const result = allSkillsArray
-    .filter((value, index) => allSkillsArray.indexOf(value) === index)
+// const getSortedUniqueSkills = users => {
+//   const reducedArray = users.reduce(
+//     (acc, user) => (acc = [...acc, ...user.skills]),
+//     [],
+//   );
+//   const filteredArray = reducedArray.filter(
+//     (value, index, array) => array.indexOf(value) === index,
+//   );
+
+//   const sortedArray = filteredArray.sort();
+//   return sortedArray;
+// };
+
+const getSortedUniqueSkills = users =>
+  users
+    .reduce((acc, user) => (acc = [...acc, ...user.skills]), [])
+    .filter((value, index, array) => array.indexOf(value) === index)
     .sort();
-  return result
-}
 
 console.log(getSortedUniqueSkills(users));
 // (19) [ 'adipisicing', 'amet', 'anim', 'commodo', 'culpa', 'elit', 'ex', 'ipsum', 'irure', 'laborum', 'lorem', 'mollit', 'non', 'nostrud', 'nulla', 'proident', 'tempor', 'velit', 'veniam' ]

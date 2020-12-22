@@ -133,3 +133,21 @@
 // Ниже максимально сокразенная запись
 // const countTotalAmount = array => array.reduce((acc, element) => acc + element.price * element.quantity, 0);
 // console.log(countTotalAmount(cart));
+
+// array.forEach(element => {
+//   if (element === 0) {
+//     array.splice(array.indexOf(element), 1)
+//     array.push(element)
+//   }
+// })
+
+// const moveZeros = array => {
+//   array.forEach(element => {
+//     if (element === 0) {
+//       array.splice(array.indexOf(element), 1);
+//       array.push(element);
+//     }
+//   });
+//   return array;
+// };
+// console.log(moveZeros([false, 1, 0, 1, 2, 0, 1, 3, 'a']));
