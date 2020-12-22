@@ -231,43 +231,34 @@ console.log(getNamesSortedByFriendsCount(users));
 
 // Получить массив всех умений всех пользователей (поле skills), при этом не должно быть повторяющихся умений и они должны быть отсортированы в алфавитном порядке.
 
-// 1. Перебрать массив users
-// 2. Перебрать массив skills каждого обьекта
-// 3. Если элемент массива skills не совпадает ни с одним элементом из массива skillsArray, то запушить его в skillsArray
-// 4. Отсортировать с помощью .sort()
+//todo 1. Перебрать массив users
+//todo 2. Перебрать массив skills каждого обьекта
+//todo 3. Если элемент массива skills не совпадает ни с одним элементом из массива skillsArray, то запушить его в skillsArray
+//todo 4. Отсортировать с помощью .sort()
 
 //* Сделал через методы .forEach(), .includes(), .push(), .sort()
 // const getSortedUniqueSkills = users => {
 //   const skillsArray = [];
 
-//   users.forEach(user => {
-//     user.skills.forEach(skill => {
-//       if (skillsArray.includes(skill)) {
-//         return;
-//       }
-//       skillsArray.push(skill);
-//       return skill;
-//     });
-//     return user;
-//   });
-
+//   users.forEach(user =>
+//     user.skills.forEach(skill =>
+//       // skillsArray.includes(skill) ? null : skillsArray.push(skill),
+//       !skillsArray.includes(skill) ? skillsArray.push(skill) : null,
+//     ),
+//   );
 //   skillsArray.sort();
 
 //   return skillsArray;
 // };
 
+//* Сделал через методы .reduce(), .filter(), .sort()
 const getSortedUniqueSkills = users => {
-  const skillsArray = [];
-
-  users.forEach(user =>
-    user.skills.forEach(skill =>
-      skillsArray.includes(skill) ? null : skillsArray.push(skill),
-    ),
-  );
-  skillsArray.sort();
-
-  return skillsArray;
-};
+  const allSkillsArray = [...users].reduce((acc, user) => acc = [...acc, ...user.skills], [])
+  const result = allSkillsArray
+    .filter((value, index) => allSkillsArray.indexOf(value) === index)
+    .sort();
+  return result
+}
 
 console.log(getSortedUniqueSkills(users));
 // (19) [ 'adipisicing', 'amet', 'anim', 'commodo', 'culpa', 'elit', 'ex', 'ipsum', 'irure', 'laborum', 'lorem', 'mollit', 'non', 'nostrud', 'nulla', 'proident', 'tempor', 'velit', 'veniam' ]
